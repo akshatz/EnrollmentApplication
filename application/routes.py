@@ -17,4 +17,5 @@ def register():
 
 @app.route("/login")
 def login():
-    return render_template('login.html',login=False)
+    return render_template('login.html')
+
