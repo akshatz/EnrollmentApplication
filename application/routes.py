@@ -1,9 +1,9 @@
-from application import app
+from application import app, db
 from flask import render_template, request, Response
 import json
+from application.models  import User, Enrollment, Course
 
-courseData= [{
-        "courseID":"1111","title":"Django","description": "Intro to Django","credits":"5", "term":"Fall, Spring"},{"courseID":"2222", "title":"Python-Flask","description":"Intro to Python-Flask", "credits":"4","term":"Spring",},{"courseID":"3333","title":".Net","description": "Intro to .Net","credits":"5","term":"Fall, Spring"},{"courseID":"4444", "title":"C#","description":"Intro to C#", "credits":"4","term":"Spring",},{"courseID":"5555","title":"Java","description": "Intro to Java","credits":"5","term":"Fall, Spring"},{"courseID":"6666", "title":"C","description":"Intro to C", "credits":"4","term":"Spring"}]
+courseData=['course.json']
 
 @app.route("/")
 # @app.route("/index/")
@@ -25,7 +25,7 @@ def register():
     return render_template('register.html', register=True)
 
 
-@app.route('/enrollment', methods=["GET", "POST"])
+@app.route('/enrollment/', methods=["GET", "POST"])
 def enrollment():
     id = request.form.get("courseID")
     title = request.form["title"]
@@ -39,5 +39,15 @@ def api(idx=None):
         jdata = courseData
     else:
         jdata = courseData[int(idx)]
-
     return Response(json.dumps(jdata), mimetype="application/json")
+
+@app.route('/users/')
+def user():
+    if User.objects.all() == None:
+    # u = User(user_id=1, first_name= 'Akshat', last_name='' ,email='akshatzala@gmail.com', password='123456').save()
+    # print(u)
+       return render_template('register.html')
+    else:
+        users = User.objects.all()
+        # print(users)
+        return render_template("user.html", users=users)
