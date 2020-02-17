@@ -2,8 +2,9 @@ from application import app, db
 from flask import render_template, request, Response
 import json
 from application.models  import User, Enrollment, Course
+from .forms import LoginForm, RegisterForm
 
-courseData=['course.json']
+# courseData = course.json[i]
 
 @app.route("/")
 # @app.route("/index/")
@@ -11,18 +12,20 @@ courseData=['course.json']
 def home():
     return render_template('index.html',home=True)
 
-@app.route("/login/")
+@app.route("/login/", methods=["GET", "POST"])
 def login():
-    return render_template('login.html',login=True)
+    form = LoginForm()
+    return render_template('login.html', title="Login", form=form ,login=True)
 
 @app.route("/courses/")
 @app.route("/courses/<term>/")
 def courses(term=2020):
     return render_template('courses.html', courseData=courseData,courses=True, term=term)
 
-@app.route("/register/")
+@app.route("/register/", methods=["POST"])
 def register():
-    return render_template('register.html', register=True)
+    form = RegisterForm()
+    return render_template('register.html', title="Register", form=form, register=True)
 
 
 @app.route('/enrollment/', methods=["GET", "POST"])
