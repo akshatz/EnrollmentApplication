@@ -59,27 +59,15 @@ input[type=text]:focus, input[type=password]:focus {
     padding:5px;
     border-bottom:2px solid #0f0f0f;
 }
-.bottom-container {
-    background: #333;
-    padding:5px;
-    border-top:2px solid #0f0f0f;
-    /* position:absolute; */
-    bottom:0;
-}
 
-.container-term {
-    width:80%;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
-}
 footer {
-    text-align: center;
-    height: 50px;
+    position: absolute;
     color: white;
-    padding: 5px;
-    margin-top: 10px;
     bottom: 0px;
+    width:100%;
+    border-top:2px solid #0f0f0f;
+    background: #333;
+    padding: 5px;
 }
 
 .btn-submit {

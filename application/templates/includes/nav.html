@@ -4,9 +4,6 @@
                 <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link {% if home %} active {% endif %}">Home</a></li>
                 <li class="nav-item"><a href="{{ url_for('courses') }}" class="nav-link {% if courses %} active {% endif %}">Courses</a></li>
 
-                {% if not session['username'] %}
-                <li class="nav-item"><a href="{{ url_for('register') }}" class="nav-link {% if register %} active {% endif %}">Register</a></li>   
-                {% endif %}
                 <li class="nav-item"><a href="{{ url_for('enrollment')}}" class="nav-link {% if enrollment %} active {% endif %}">Enrollment</a></li> 
 
                 {% if not session['username'] %}
@@ -14,6 +11,10 @@
                 {% else %}
                 {#<li class="nav-item"><a href="Logout.html" class="nav-link {% if %}active{% endif %}">Logout</a></li>#}
                 {% endif %}
+                {% if not session['username'] %}
+                <li class="nav-item"><a href="{{ url_for('register') }}" class="nav-link {% if register %} active {% endif %}">Register</a></li>   
+                {% endif %}
+
             </ul>
         </nav>
         <hr style="clear:both">
