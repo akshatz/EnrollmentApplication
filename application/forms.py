@@ -1,17 +1,23 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Email, Length, ValidationError, EqualTo
+from application.models import User
 
 class LoginForm(FlaskForm):
-    email       = StringField("Email",validators=[DataRequired()])
-    password    = StringField("Password", validators=[DataRequired()])
-    remmember_me= BooleanField("Remember Me")
-    submit      = SubmitField("Login")
+    email           = StringField("Email",validators=[DataRequired()])
+    password        = StringField("Password", validators=[DataRequired(), Length(min=6, max=50)])
+    remmember_me    = BooleanField("Remember Me")
+    submit          = SubmitField("Login")
     
 class RegisterForm(FlaskForm):
     email               = StringField("Email",validators=[DataRequired()])
-    password            = StringField("Password", validators=[DataRequired()])
-    password_confirm    = StringField("Confirm Password", validators=[DataRequired()])
-    first_name          = StringField("First Name", validators=[DataRequired()])
-    last_name           = StringField("Last Name", validators=[DataRequired()])
-    submit              = SubmitField("Sign up")
+    password            = StringField("Password", validators=[DataRequired(), Length(min=6, max=30)])
+    password_confirm    = StringField("Confirm Password", validators=[DataRequired(), Length(min=6, max=30), EqualTo('password')])
+    first_name          = StringField("First Name", validators=[Length(min=2, max=50)])
+    last_name           = StringField("Last Name", validators=[Length(min=2, max=50)]) 
+    submit             = SubmitField("Register now")
+
+    def validate_email(self, email):
+        user = User.objects(email=email.data).first()
+        if user:
+            raise ValidationError("Email is already in use. Choose another one.")

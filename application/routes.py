@@ -6,7 +6,6 @@ from .forms import LoginForm, RegisterForm
 
 courseData = [{"courseID": 1111, "title":"Django", "description": "Intro to Django","credits":5, "term":"Fall, Spring"},{"courseID": 2222, "title":"Python-Flask","description":"Intro to Python-Flask", "credits":4,"term":"Spring"},{"courseID": 3333, "title":".Net", "description": "Intro to .Net", "credits":5, "term":"Fall, Spring"},{"courseID": 4444, "title":"C#","description":"Intro to C#", "credits":4,"term":"Spring"},{"courseID": 5555,"title":"Java","description": "Intro to Java","credits":"5","term":"Fall, Spring"},{"courseID": 6666, "title":"C","description":"Intro to C", "credits": 4,"term":"Spring"}]
 
-# @app.route("/index/")
 @app.route("/home/")
 def home():
     return render_template('index.html',home=True)
@@ -16,11 +15,18 @@ def home():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if  request.form.get("email") == 'akshatzala@gmail.com' and request.form.get("password") == '123456':
-            flash("You are logged in successfully!!!", "success")
+        email = form.email.data
+        password = form.password.data
+
+        user = User.objects(email=email).first()
+        # print(user)
+        
+        if user and user.get_password(password): 
+            flash("you are logged in successfully!!!", "success")
             return redirect("/courses/")
         else:
-            flash("Sorry!!! Something went wrong.", "error")
+            flash("Sorry!!! Something went wrong.", "danger")
+            return render_template('login.html', title="Login", form=form ,login=True)
     return render_template('login.html', title="Login", form=form ,login=True)
 
 @app.route("/courses/")
@@ -32,13 +38,22 @@ def courses(term=2020):
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        if  request.form.get("email") == 'akshatzala@gmail.com' and request.form.get("password") == '123456' and request.form.get("first_name")== first_name and request.form.get("last_name")==last_name:
-            flash("You have successfully registered!!!", "success")
-            return redirect("/login/")
-        else:
-            flash("Sorry!!! Something went wrong.", "error")
-    
+        user_id =  User.objects.count()
+        user_id += 1 
+
+        email       =     form.email.data
+        password    =     form.password.data
+        first_name  =     form.first_name.data
+        last_name   =     form.last_name.data
+
+        user = User(user_id=user_id, email=email, first_name=first_name, last_name=last_name)
+        user.set_password(password)
+        user.save()
+
+        flash("You have successfully registered!!!", "success")
+        return redirect("/login/")
     return render_template('register.html', title="Register", form=form, register=True)
+
 
 
 @app.route('/enrollment/', methods=["GET", "POST"])
@@ -66,8 +81,6 @@ def api(idx=None):
 @app.route('/users/')
 def user():
     if User.objects.all() == None:
-    # u = User(user_id=1, first_name= 'Akshat', last_name='' ,email='akshatzala@gmail.com', password='123456').save()
-    # print(u)
        return render_template('register.html')
     else:
         users = User.objects.all()

@@ -6,7 +6,9 @@
 
     <div class="container">
         <form name="register" action="" method="POST" novalidate>
-        {{form.hidden_tag()}}
+            <fieldset class="form group">
+            <legend>{{ title }}</legend>
+            {{form.hidden_tag()}}
             <p>
                 {{ form.email.label}}<br>
                 {{ form.email(size=35)}}
@@ -21,10 +23,16 @@
                     <span class="error-message">{{ error }}</span>
                 {% endfor %}
             </p>
-            
+            <p>
+                {{ form.password_confirm.label}}<br>
+                {{ form.password_confirm}}
+                {% for error in form.password_confirm.errors %}
+                    <span class="error-message">{{ error }}</span>
+                {% endfor %}
+            </p>
             <p>
                 {{ form.first_name.label}}<br>
-                {{ form.email(size=35)}}
+                {{ form.email }}
                 {% for error in form.first_name.errors %}
                     <span class="error-message">{{ error }}</span>
                 {% endfor %}
@@ -38,7 +46,7 @@
             </p>
             <p>
                 {{ form.submit()}}
-            </p>
+            </p></fieldset>
             </form>
     </div>
     {% endblock %}
