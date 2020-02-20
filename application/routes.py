@@ -37,23 +37,51 @@ def courses(term=2020):
 @app.route("/register/", methods=["POST", "GET"])
 def register():
     form = RegisterForm()
+    # print(form)
+    print(form.validate_on_submit())
+
     if form.validate_on_submit():
         user_id =  User.objects.count()
+        print(user_id)
         user_id += 1 
 
         email       =     form.email.data
+        print(email)
         password    =     form.password.data
         first_name  =     form.first_name.data
+        # print(first_name)
         last_name   =     form.last_name.data
+        # print(type(last_name))
 
         user = User(user_id=user_id, email=email, first_name=first_name, last_name=last_name)
+        print(user)
         user.set_password(password)
         user.save()
 
         flash("You have successfully registered!!!", "success")
         return redirect("/login/")
-    return render_template('register.html', title="Register", form=form, register=True)
+    else:
+        return render_template('register.html', title="Register", form=form, register=True)
 
+# def register():
+#     form = RegisterForm()
+#     print(form.validate_on_submit())
+#     if form.validate_on_submit():
+#         print(form.validate_on_submit())
+#         user_id     = User.objects.count()
+#         user_id     += 1
+
+#         email       = form.email.data
+#         password    = form.password.data
+#         first_name  = form.first_name.data
+#         last_name   = form.last_name.data
+
+#         user = User(user_id=user_id, email=email, first_name=first_name, last_name=last_name)
+#         user.set_password(password)
+#         user.save()
+#         flash("You are successfully registered!","success")
+#         return redirect(url_for('index'))
+#     return render_template("register.html", title="Register", form=form, register=True)
 
 
 @app.route('/enrollment/', methods=["GET", "POST"])
@@ -80,9 +108,12 @@ def api(idx=None):
 
 @app.route('/users/')
 def user():
+    # User(user_id=1, first_name="Akshat", last_name="Zala", email="akshatzala@gmail.com", password="password123").save()
+    # User(user_id=2, first_name="Akshat", last_name="Zala", email="akshatzala@outlook.com", password="password123").save()
+
     if User.objects.all() == None:
        return render_template('register.html')
     else:
         users = User.objects.all()
-        # print(users)
+        # print(users[0].first_name, users[0].last_name)
         return render_template("user.html", users=users)
