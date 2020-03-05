@@ -20,7 +20,7 @@ def login():
 
         user = User.objects(email=email).first()
         
-        if user and password == user.password: 
+        if user and user.get_password(password): 
             flash(f"[user.first_name], you are logged in successfully!!!", "success")
             return redirect("/courses/")
         else:
@@ -43,15 +43,18 @@ def register():
         email       =     form.email.data
         # print(email)
         password    =     form.password.data
+        # print(password)
         first_name  =     form.first_name.data
+        # print(first_name)
         last_name   =     form.last_name.data
+        # print(last_name)
+     
         user = User(user_id=user_id, email=email, first_name=first_name, last_name=last_name)
         user.set_password(password)
         user.save()
         flash("You have successfully registered!!!", "success")
-        return redirect("/login/")
-    else:
-        return render_template('register.html', title="Register", form=form, register=True)
+        return redirect("login")
+    return render_template('register.html', title="Register", form=form, register=True)
 
 # def register():
 #     form = RegisterForm()

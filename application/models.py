@@ -7,11 +7,12 @@ class User(db.Document):
     user_id     =   db.IntField( unique=True )
     email       =   db.StringField( max_length=50, required=True, unique=True )
     password    =   db.StringField( required=True )
-    first_name  =   db.StringField( required = True )
-    last_name   =   db.StringField( required= True )
+    first_name  =   db.StringField()
+    last_name   =   db.StringField()
 
 
     def set_password(self, password):
+        # print(password)
         self.password = generate_password_hash(password)
     
     def get_password(self, password):

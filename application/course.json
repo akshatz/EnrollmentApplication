@@ -1,6 +1,0 @@
-{"courseID": 1111, "title":"Django", "description": "Intro to Django","credits": 5, "term":"Fall, Spring"}
-{"courseID": 2222, "title":"Python-Flask","description":"Intro to Python-Flask", "credits":4,"term":"Spring"}
-{"courseID": 3333, "title":".Net", "description": "Intro to .Net", "credits":5, "term":"Fall, Spring"}
-{"courseID": 4444, "title":"C#","description":"Intro to C#", "credits":4,"term":"Spring"}
-{"courseID": 5555,"title":"Java","description": "Intro to Java","credits":5,"term":"Fall, Spring"}
-{"courseID": 6666, "title":"C","description":"Intro to C", "credits": 4,"term":"Spring"}

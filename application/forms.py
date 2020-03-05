@@ -13,8 +13,8 @@ class RegisterForm(FlaskForm):
     email               = StringField("Email",validators=[DataRequired()])
     password            = StringField("Password", validators=[DataRequired(), Length(min=6, max=30)])
     password_confirm    = StringField("Confirm Password", validators=[DataRequired(), Length(min=6, max=30), EqualTo('password')])
-    first_name          = StringField("First Name", validators=[Length(min=2, max=50)])
-    last_name           = StringField("Last Name", validators=[Length(min=2, max=50)]) 
+    first_name          = StringField("First Name")
+    last_name           = StringField("Last Name") 
     submit              = SubmitField("Register now")
 
     def validate_email(self, email):
