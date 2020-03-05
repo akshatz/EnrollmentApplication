@@ -7,8 +7,8 @@ class User(db.Document):
     user_id     =   db.IntField( unique=True )
     email       =   db.StringField( max_length=50, required=True, unique=True )
     password    =   db.StringField( required=True )
-    first_name  =   db.StringField( )
-    last_name   =   db.StringField( )
+    first_name  =   db.StringField( required = True )
+    last_name   =   db.StringField( required= True )
 
 
     def set_password(self, password):
@@ -19,11 +19,11 @@ class User(db.Document):
 
 
 class Course(db.Document):
-    course_id   =   db.StringField(max_length=10, unique=True )
-    title       =   db.StringField(max_length=100 )
-    description =   db.StringField(max_length=255 )
+    course_id   =   db.StringField( max_length=10, unique=True )
+    title       =   db.StringField( max_length=100 )
+    description =   db.StringField( max_length=255 )
     credits     =   db.IntField()
-    term        =   db.StringField(max_length=25 ) 
+    term        =   db.StringField( max_length=25 ) 
 
 class Enrollment(db.Document):
     user_id     =   db.IntField()

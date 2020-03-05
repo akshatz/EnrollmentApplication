@@ -7,17 +7,17 @@
             <form name="login" action="" method="POST" novalidate>
             <fieldset class="form group">
             <legend>{{ title }}</legend>
-            {{form.hidden_tag()}}
+            {{ form.hidden_tag() }}
             <p>
                 {{ form.email.label}}<br>
-                {{ form.email(size=35)}}
+                {{ form.email }}
                 {% for error in form.email.errors %}
                     <span class="error-message">{{ error }}</span>
                 {% endfor %}
             </p>
             <p>
-                {{ form.password.label}}<br>
-                {{ form.password(min_size=8)}}
+                {{ form.password.label }}<br>
+                {{ form.password }}
                 {% for error in form.password.errors %}
                     <span class="error-message">{{ error }}</span>
                 {% endfor %}

@@ -19,10 +19,9 @@ def login():
         password = form.password.data
 
         user = User.objects(email=email).first()
-        # print(user)
         
-        if user and user.get_password(password): 
-            flash("you are logged in successfully!!!", "success")
+        if user and password == user.password: 
+            flash(f"[user.first_name], you are logged in successfully!!!", "success")
             return redirect("/courses/")
         else:
             flash("Sorry!!! Something went wrong.", "danger")
@@ -37,27 +36,18 @@ def courses(term=2020):
 @app.route("/register/", methods=["POST", "GET"])
 def register():
     form = RegisterForm()
-    # print(form)
-    print(form.validate_on_submit())
-
     if form.validate_on_submit():
         user_id =  User.objects.count()
-        print(user_id)
         user_id += 1 
 
         email       =     form.email.data
-        print(email)
+        # print(email)
         password    =     form.password.data
         first_name  =     form.first_name.data
-        # print(first_name)
         last_name   =     form.last_name.data
-        # print(type(last_name))
-
         user = User(user_id=user_id, email=email, first_name=first_name, last_name=last_name)
-        print(user)
         user.set_password(password)
         user.save()
-
         flash("You have successfully registered!!!", "success")
         return redirect("/login/")
     else:
@@ -65,7 +55,6 @@ def register():
 
 # def register():
 #     form = RegisterForm()
-#     print(form.validate_on_submit())
 #     if form.validate_on_submit():
 #         print(form.validate_on_submit())
 #         user_id     = User.objects.count()
@@ -88,7 +77,6 @@ def register():
 def enrollment():
     if (courses):
         id = request.form.get("courseID")
-        # title = request.form["title"]
         term = request.form.get("term")
         return render_template('enrollment.html',enrollment=True, data={"id": id, "term": term})
     else:
@@ -115,5 +103,4 @@ def user():
        return render_template('register.html')
     else:
         users = User.objects.all()
-        # print(users[0].first_name, users[0].last_name)
         return render_template("user.html", users=users)
