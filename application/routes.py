@@ -21,7 +21,7 @@ def login():
         user = User.objects(email=email).first()
         
         if user and user.get_password(password): 
-            flash(f`user.first_name`," you are logged in successfully!!!", "success")
+            flash(f"{user.first_name}, you are logged in successfully!!!", "success")
             return redirect("/courses/")
         else:
             flash("Sorry!!! Something went wrong.", "danger")
