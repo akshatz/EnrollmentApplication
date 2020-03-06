@@ -3,7 +3,7 @@ from flask import render_template, request, Response, redirect, flash
 import json
 from application.models  import User, Enrollment, Course
 from .forms import LoginForm, RegisterForm
-
+from flask import Flask, url_for
 courseData = [{"courseID": 1111, "title":"Django", "description": "Intro to Django","credits":5, "term":"Fall, Spring"},{"courseID": 2222, "title":"Python-Flask","description":"Intro to Python-Flask", "credits":4,"term":"Spring"},{"courseID": 3333, "title":".Net", "description": "Intro to .Net", "credits":5, "term":"Fall, Spring"},{"courseID": 4444, "title":"C#","description":"Intro to C#", "credits":4,"term":"Spring"},{"courseID": 5555,"title":"Java","description": "Intro to Java","credits":"5","term":"Fall, Spring"},{"courseID": 6666, "title":"C","description":"Intro to C", "credits": 4,"term":"Spring"}]
 
 @app.route("/home/")
@@ -21,7 +21,7 @@ def login():
         user = User.objects(email=email).first()
         
         if user and user.get_password(password): 
-            flash(f"[user.first_name], you are logged in successfully!!!", "success")
+            flash(f`user.first_name`," you are logged in successfully!!!", "success")
             return redirect("/courses/")
         else:
             flash("Sorry!!! Something went wrong.", "danger")
@@ -40,20 +40,17 @@ def register():
         user_id =  User.objects.count()
         user_id += 1 
 
-        email       =     form.email.data
-        # print(email)
-        password    =     form.password.data
-        # print(password)
         first_name  =     form.first_name.data
-        # print(first_name)
         last_name   =     form.last_name.data
-        # print(last_name)
+        email       =     form.email.data
+        password    =     form.password.data
+        
      
         user = User(user_id=user_id, email=email, first_name=first_name, last_name=last_name)
         user.set_password(password)
         user.save()
         flash("You have successfully registered!!!", "success")
-        return redirect("login")
+        return render_template('login.html', title="Login", form=form ,login=True)
     return render_template('register.html', title="Register", form=form, register=True)
 
 # def register():
@@ -99,9 +96,7 @@ def api(idx=None):
 
 @app.route('/users/')
 def user():
-    # User(user_id=1, first_name="Akshat", last_name="Zala", email="akshatzala@gmail.com", password="password123").save()
-    # User(user_id=2, first_name="Akshat", last_name="Zala", email="akshatzala@outlook.com", password="password123").save()
-
+   
     if User.objects.all() == None:
        return render_template('register.html')
     else:
